@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  spigot:
+    build: ./
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565
+    volumes:
+      - data:/data
+    environment:
+      SPIGOT_VER: 1.14.2
+      SPIGOT_MEM: 4G
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+    depends_on:
+      - db
+
+  db:
+    image: mariadb
+    environment:
+      MYSQL_DATABASE: spigot_plugins
+      # TODO: Password should be put out of the repository
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  data:
+    driver: local
+  mysql:
+    driver: local
