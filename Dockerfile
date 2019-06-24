@@ -10,9 +10,10 @@ RUN mkdir data && echo "eula=true" > ./data/eula.txt
 
 FROM openjdk:8-jre-alpine
 ENV SPIGOT_VER 1.14.2
+ENV SPIGOT_SCNAME spigot
 
-# NOTE: Need to sync the version with the server?
-RUN apk --no-cache add mariadb-client
+# NOTE: Need to sync mariadb-client's version with the server?
+RUN apk --no-cache add mariadb-client screen
 
 WORKDIR /data
 COPY --from=build-env /build/minecraft /minecraft
@@ -26,10 +27,11 @@ COPY ./config/spigot/* /data/
 COPY ./config/plugins/coreprotect.yml /data/plugins/CoreProtect/config.yml
 COPY ./config/plugins/luckperms.yml /data/plugins/LuckPerms/config.yml
 
-COPY ./entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+COPY ./scripts/* /scripts/
+RUN chmod +x /scripts/*
+ENV PATH $PATH:/scripts
 
 VOLUME [ "/data" ]
 EXPOSE 25565
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "boot_spigot" ]
+ENTRYPOINT [ "entrypoint.sh" ]
+CMD [ "spigot" ]

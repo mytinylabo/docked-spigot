@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -z "$SPIGOT_SCNAME" ]; then
+    echo '$SPIGOT_SCNAME must be set to specify the session.'
+    exit 1
+fi
+
+screen -S $SPIGOT_SCNAME -Q select .
+ret=$?
+if [ $ret -ne 0 ]; then
+    echo "Screen $SPIGOT_SCNAME doesn't exist."
+    exit 1
+fi
+
+screen -S $SPIGOT_SCNAME -X stuff "$@"'\015'
