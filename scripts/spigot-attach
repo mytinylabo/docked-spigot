@@ -4,4 +4,4 @@ source utils.sh
 
 assert_spigot_screen
 
-screen -S $SPIGOT_SCNAME -X stuff "$@"'\015'
+screen -r -S $SPIGOT_SCNAME
