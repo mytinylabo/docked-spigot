@@ -1,6 +1,11 @@
 #!/bin/sh
 
 if [ " $@" = " spigot" ]; then
+    if [ $$ != 1 ]; then
+        echo 'You can start Spigot server only via ENTRYPOINT.'
+        exit 1
+    fi
+
     until mysqladmin ping -h $MYSQL_HOST -P $MYSQL_PORT --silent;
     do
         echo "Waiting for database connection..."
