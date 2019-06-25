@@ -1,5 +1,4 @@
 #!/bin/sh
-
 source utils.sh
 
 assert_spigot_screen

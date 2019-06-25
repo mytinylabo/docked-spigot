@@ -1,7 +1,6 @@
 #!/bin/sh
-
 source utils.sh
 
 assert_spigot_screen
 
-screen -S $SPIGOT_SCNAME -X stuff "$@"'\015'
+eval "screen -S $SPIGOT_SCNAME -X eval 'stuff \"$@\"\015'"

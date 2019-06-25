@@ -1,19 +1,17 @@
 
-# TODO: Just return a value, assert function takes charge of printing error messages
 check_spigot_screen() {
-    if [ -z "$SPIGOT_SCNAME" ]; then
-        echo '$SPIGOT_SCNAME must be set to specify the session.'
-        return 1
-    fi
-
-    if ! screen -S $SPIGOT_SCNAME -Q select .; then
-        echo "Screen $SPIGOT_SCNAME doesn't exist."
-        return 2
-    fi
-
+    test -n "$SPIGOT_SCNAME" || return 11
+    screen -S $SPIGOT_SCNAME -Q select . || return 12
     return 0
 }
 
 assert_spigot_screen() {
-    check_spigot_screen || exit 1
+    check_spigot_screen
+    ret=$?
+    case $ret in
+        11) echo '$SPIGOT_SCNAME must be set to specify the session.'
+            exit $ret ;;
+        12) echo "Screen $SPIGOT_SCNAME doesn't exist."
+            exit $ret ;;
+    esac
 }
