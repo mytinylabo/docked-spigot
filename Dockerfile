@@ -5,7 +5,7 @@ ENV SPIGOT_VER ${spigot_ver}
 WORKDIR /build
 RUN apk --no-cache add git
 RUN wget "https://hub.spigotmc.org/jenkins/job/BuildTools/lastBuild/artifact/target/BuildTools.jar" -O BuildTools.jar && \
-    java -jar BuildTools.jar --rev ${SPIGOT_VER}
+    java -Xmx1024M -jar BuildTools.jar --rev ${SPIGOT_VER}
 RUN mkdir minecraft && mv spigot-${SPIGOT_VER}.jar ./minecraft
 RUN mkdir data && echo "eula=true" > ./data/eula.txt
 
