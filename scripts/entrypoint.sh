@@ -26,8 +26,9 @@ if [ " $@" = " spigot" ]; then
 
     trap "trap_TERM" TERM
 
-    # TODO: Pull out spigot's logs to my STDOUT so as to be read via "docker logs"
-    screen -AmdS $SPIGOT_SCNAME java -jar -Xms${SPIGOT_MEM} -Xmx${SPIGOT_MEM} /minecraft/spigot-${SPIGOT_VER}.jar nogui
+    spigot_cmd="java -jar -Xms${SPIGOT_MEM} -Xmx${SPIGOT_MEM} /minecraft/spigot-${SPIGOT_VER}.jar nogui"
+    # FIXME: Piping seems to clog logs probably because of buffering
+    screen -AmdS $SPIGOT_SCNAME sh -c "$spigot_cmd | tee `tty`"
 
     while check_spigot_screen;
     do
