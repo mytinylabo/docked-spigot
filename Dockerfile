@@ -1,5 +1,6 @@
 FROM openjdk:8-jdk-alpine AS build-env
-ENV SPIGOT_VER 1.14.2
+ARG spigot_ver=latest
+ENV SPIGOT_VER ${spigot_ver}
 
 WORKDIR /build
 RUN apk --no-cache add git
@@ -9,7 +10,8 @@ RUN mkdir minecraft && mv spigot-${SPIGOT_VER}.jar ./minecraft
 RUN mkdir data && echo "eula=true" > ./data/eula.txt
 
 FROM openjdk:8-jre-alpine
-ENV SPIGOT_VER 1.14.2
+ARG spigot_ver=latest
+ENV SPIGOT_VER ${spigot_ver}
 ENV SPIGOT_SCNAME spigot
 
 # NOTE: Need to sync mariadb-client's version with the server?
@@ -29,7 +31,7 @@ COPY ./config/plugins/luckperms.yml /data/plugins/LuckPerms/config.yml
 
 COPY ./scripts/* /scripts/
 RUN chmod +x /scripts/*
-ENV PATH $PATH:/scripts
+ENV PATH ${PATH}:/scripts
 
 VOLUME [ "/data" ]
 EXPOSE 25565

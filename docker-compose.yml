@@ -3,7 +3,10 @@ version: '3.1'
 services:
 
   spigot:
-    build: ./
+    build:
+      context: .
+      args:
+        spigot_ver: 1.14.3
     tty: true
     stdin_open: true
     ports:
@@ -11,7 +14,6 @@ services:
     volumes:
       - data:/data
     environment:
-      SPIGOT_VER: 1.14.2
       SPIGOT_MEM: 4G
       MYSQL_HOST: db
       MYSQL_PORT: 3306
