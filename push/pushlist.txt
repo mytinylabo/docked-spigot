@@ -1,0 +1,14 @@
+# Format: source_path destination_path
+#   source_path:      relative path from this file(pushlist.txt)
+#   destination_path: full path in the spigot container
+
+# Spigot's configuration files
+#   Please pull these files from the spigot container
+#   after it comes up successfully once.
+#
+config/spigot/bukkit.yml   /data/bukkit.yml
+config/spigot/commands.yml /data/commands.yml
+config/spigot/help.yml     /data/help.yml
+config/spigot/permissions.yml   /data/permissions.yml
+config/spigot/server.properties /data/server.properties
+config/spigot/spigot.yml   /data/spigot.yml

@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -eu
+
+src_dir=/push_src
+list_path=${src_dir}/pushlist.txt
+
+if [ ! -d ${src_dir} -o ! -f ${list_path} ]; then
+    echo "No files to push from the host"
+    exit 0
+fi
+
+while read src_file dst_file
+do
+    # Skip if insufficient params or comment
+    test -z ${src_file} && continue
+    test ${src_file:0:1} = "#" && continue
+    test -z ${dst_file} && continue
+
+    if [ ! -f ${src_dir}/${src_file} ]; then
+        echo "No such file: ${src_file}"
+        continue
+    fi
+
+    if [ -d ${dst_file} ]; then
+        echo "Destination can't be a directory: ${dst_file}"
+        continue
+    fi
+
+    mkdir -p `dirname ${dst_file}`
+    cp ${src_dir}/${src_file} ${dst_file}
+    echo "Push: ${src_file} -> ${dst_file}"
+
+    # Runtime replacements
+    is_text=`file ${dst_file} | cut -d ' ' -f 2- | grep text | wc -l`
+    if [ $is_text = 1 ]; then
+        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_HOST__/${MYSQL_HOST}/g" ${dst_file}
+        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_PORT__/${MYSQL_PORT}/g" ${dst_file}
+        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_DATABASE__/${MYSQL_DATABASE}/g" ${dst_file}
+        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_ROOT_PASSWORD__/${MYSQL_ROOT_PASSWORD}/g" ${dst_file}
+    fi
+done < ${list_path}

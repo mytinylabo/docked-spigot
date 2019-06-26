@@ -18,6 +18,8 @@ if [ " $@" = " spigot" ]; then
         exit 1
     fi
 
+    push-files
+
     until mysqladmin ping -h $MYSQL_HOST -P $MYSQL_PORT --silent;
     do
         echo "Waiting for database connection..."

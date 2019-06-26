@@ -13,19 +13,21 @@ services:
       - 25565:25565
     volumes:
       - data:/data
+      - ./push:/push_src
+    env_file: secret.env
     environment:
       SPIGOT_MEM: 4G
       MYSQL_HOST: db
       MYSQL_PORT: 3306
+      MYSQL_DATABASE: spigot_plugins
     depends_on:
       - db
 
   db:
     image: mariadb
+    env_file: secret.env
     environment:
       MYSQL_DATABASE: spigot_plugins
-      # TODO: Password should be put out of the repository
-      MYSQL_ROOT_PASSWORD: example
     volumes:
       - mysql:/var/lib/mysql
 

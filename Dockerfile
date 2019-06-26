@@ -15,25 +15,18 @@ ENV SPIGOT_VER ${spigot_ver}
 ENV SPIGOT_SCNAME spigot
 
 # NOTE: Need to sync mariadb-client's version with the server?
-RUN apk --no-cache add mariadb-client screen
+RUN apk --no-cache add mariadb-client screen file
 
 WORKDIR /data
 COPY --from=build-env /build/minecraft /minecraft
 COPY --from=build-env /build/data /data
-
-# TODO: Pull plugins in Dockerfile
-COPY ./plugin_jars/* /data/plugins/
-
-# TODO: Make helper script to push config files to the container
-COPY ./config/spigot/* /data/
-COPY ./config/plugins/coreprotect.yml /data/plugins/CoreProtect/config.yml
-COPY ./config/plugins/luckperms.yml /data/plugins/LuckPerms/config.yml
 
 COPY ./scripts/* /scripts/
 RUN chmod +x /scripts/*
 ENV PATH ${PATH}:/scripts
 
 VOLUME [ "/data" ]
+VOLUME [ "/push_src" ]
 EXPOSE 25565
 ENTRYPOINT [ "entrypoint.sh" ]
 CMD [ "spigot" ]
