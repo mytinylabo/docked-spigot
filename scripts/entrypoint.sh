@@ -37,4 +37,8 @@ if [ " $@" = " spigot" ]; then
     exit 0
 fi
 
+if [ " $@" = " sh" ]; then
+    exec /bin/sh
+fi
+
 echo 'Nothing to do for "'"$@"'"'
