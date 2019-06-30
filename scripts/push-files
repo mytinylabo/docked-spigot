@@ -32,11 +32,11 @@ do
     echo "Push: ${src_file} -> ${dst_file}"
 
     # Runtime replacements
-    is_text=`file ${dst_file} | cut -d ' ' -f 2- | grep text | wc -l`
-    if [ $is_text = 1 ]; then
-        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_HOST__/${MYSQL_HOST}/g" ${dst_file}
-        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_PORT__/${MYSQL_PORT}/g" ${dst_file}
-        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_DATABASE__/${MYSQL_DATABASE}/g" ${dst_file}
-        sed -i -e "s/__DOCKED_SPIGOT_MYSQL_ROOT_PASSWORD__/${MYSQL_ROOT_PASSWORD}/g" ${dst_file}
-    fi
+    # is_text=`file ${dst_file} | cut -d ' ' -f 2- | grep text | wc -l`
+    # if [ $is_text = 1 ]; then
+    #     sed -i -e "s/__DOCKED_SPIGOT_MYSQL_HOST__/${MYSQL_HOST}/g" ${dst_file}
+    #     sed -i -e "s/__DOCKED_SPIGOT_MYSQL_PORT__/${MYSQL_PORT}/g" ${dst_file}
+    #     sed -i -e "s/__DOCKED_SPIGOT_MYSQL_DATABASE__/${MYSQL_DATABASE}/g" ${dst_file}
+    #     sed -i -e "s/__DOCKED_SPIGOT_MYSQL_ROOT_PASSWORD__/${MYSQL_ROOT_PASSWORD}/g" ${dst_file}
+    # fi
 done < ${list_path}

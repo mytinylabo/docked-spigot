@@ -18,6 +18,10 @@ if [ " $@" = " spigot" ]; then
         exit 1
     fi
 
+    if [ ! -f /data/eula.txt ]; then
+        echo "eula=${EULA}" > /data/eula.txt
+    fi
+
     push-files
 
     until mysqladmin ping -h $MYSQL_HOST -P $MYSQL_PORT --silent;

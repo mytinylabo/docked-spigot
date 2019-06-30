@@ -7,7 +7,6 @@ RUN apk --no-cache add git
 RUN wget "https://hub.spigotmc.org/jenkins/job/BuildTools/lastBuild/artifact/target/BuildTools.jar" -O BuildTools.jar && \
     java -Xmx1024M -jar BuildTools.jar --rev ${SPIGOT_VER}
 RUN mkdir minecraft && mv spigot-${SPIGOT_VER}.jar ./minecraft
-RUN mkdir data && echo "eula=true" > ./data/eula.txt
 
 FROM openjdk:8-jre-alpine
 ARG spigot_ver=latest
@@ -19,7 +18,6 @@ RUN apk --no-cache add mariadb-client screen file
 
 WORKDIR /data
 COPY --from=build-env /build/minecraft /minecraft
-COPY --from=build-env /build/data /data
 
 COPY ./scripts/* /scripts/
 RUN chmod +x /scripts/*

@@ -1,3 +1,4 @@
 secret.env
 push/*
 !push/pushlist.txt
+data/*
