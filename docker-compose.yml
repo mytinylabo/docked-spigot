@@ -32,7 +32,8 @@ services:
       MYSQL_DATABASE: spigot_plugins
     volumes:
       - mysql:/var/lib/mysql
-      - ./initdb.d:/docker-entrypoint-initdb.d
+    command:
+      - --wait_timeout=10800
 
 volumes:
   mysql:
