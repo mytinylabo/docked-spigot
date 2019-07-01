@@ -32,6 +32,7 @@ services:
     env_file: secret.env
     environment:
       MYSQL_DATABASE: spigot_plugins
+      TZ: Asia/Tokyo
     volumes:
       - mysql:/var/lib/mysql
     command:
